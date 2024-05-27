@@ -10,7 +10,7 @@ import (
 
 type UserController struct{}
 
-func NewAuthController() *UserController {
+func NewUserController() *UserController {
 	return &UserController{}
 }
 
@@ -33,7 +33,7 @@ func (this *UserController) Login(c *gin.Context) {
 	//// 生成 token
 	prikey := []byte(config.SysYamlconfig.Jwt.PrivateKey)
 	curTime := time.Now().Add(time.Second * 60 * 60 * 24)
-	token, _ := GenerateToken(user.Id, prikey, curTime)
+	token, _ := GenerateToken(user.ID, prikey, curTime)
 
 	c.Set("token", token)
 	ret := ResultWrapper(c)(user, "")(OK)

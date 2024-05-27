@@ -18,7 +18,7 @@ func NewUserGetterImpl() *ServiceGetterImpl {
 type ServiceGetterImpl struct {
 }
 
-func (this *ServiceGetterImpl) SignIn(username string, password string) (*Model, error) {
+func (this *ServiceGetterImpl) SignIn(username string, password string) (*UserDTO, error) {
 	user, err := DaoGetter.FindUserByUsername(username)
 	if err != nil {
 		return nil, err
@@ -32,7 +32,8 @@ func (this *ServiceGetterImpl) SignIn(username string, password string) (*Model,
 		err = fmt.Errorf("用户名%s或密码错误", username)
 		return nil, err
 	}
-	return user, nil
+	userdto := ConvertUserToDTO(user)
+	return userdto, nil
 }
 
 func (this *ServiceGetterImpl) SignUp(email string, username string, password string) error {
@@ -59,9 +60,13 @@ func (this *ServiceGetterImpl) SignUp(email string, username string, password st
 	return nil
 }
 
-func (this *ServiceGetterImpl) GetUserList() []*Model {
+func (this *ServiceGetterImpl) GetUserList() []*UserDTO {
 	users := DaoGetter.FindUserAll()
-	return users
+	userdtos := make([]*UserDTO, len(users))
+	for i, user := range users {
+		userdtos[i] = ConvertUserToDTO(user)
+	}
+	return userdtos
 }
 
 func (this *ServiceGetterImpl) GetUserDetail(id int64) *result.ErrorResult {
@@ -74,12 +79,12 @@ func (this *ServiceGetterImpl) GetUserDetail(id int64) *result.ErrorResult {
 	return result.Result(user, nil)
 }
 
-func (this *ServiceGetterImpl) CreateUser(user *Model) *result.ErrorResult {
+func (this *ServiceGetterImpl) CreateUser(user *User) *result.ErrorResult {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (this *ServiceGetterImpl) UpdateUser(id int, user *Model) *result.ErrorResult {
+func (this *ServiceGetterImpl) UpdateUser(id int, user *User) *result.ErrorResult {
 	//TODO implement me
 	panic("implement me")
 }
@@ -91,7 +96,7 @@ func (this *ServiceGetterImpl) DeleteUser(id int) *result.ErrorResult {
 
 //
 //// 创建用户
-//func (this *GetterImpl) CreateUser(user *Model.UserModelImpl) *result.ErrorResult {
+//func (this *GetterImpl) CreateUser(user *User.UserModelImpl) *result.ErrorResult {
 //	db := dbs.Orm.Create(user)
 //	if db.Error != nil {
 //		return result.Result(nil, db.Error)
@@ -102,7 +107,7 @@ func (this *ServiceGetterImpl) DeleteUser(id int) *result.ErrorResult {
 
 //
 //// 更新用户
-//func (this *GetterImpl) UpdateUser(id int, user *Model.UserModelImpl) *result.ErrorResult {
+//func (this *GetterImpl) UpdateUser(id int, user *User.UserModelImpl) *result.ErrorResult {
 //	db := dbs.Orm.Where("id=?", id).Updates(user)
 //	if db.Error != nil {
 //		return result.Result(nil, db.Error)
@@ -112,7 +117,7 @@ func (this *ServiceGetterImpl) DeleteUser(id int) *result.ErrorResult {
 //
 //// 删除用户
 //func (this *GetterImpl) DeleteUser(id int) *result.ErrorResult {
-//	user := Model.New()
+//	user := User.New()
 //	db := dbs.Orm.Where("id=?", id).Delete(user)
 //	if db.Error != nil {
 //		return result.Result(nil, db.Error)

@@ -20,8 +20,8 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		path := c.Request.URL.Path
 		// 定义不需要JWT验证的路径
 		exceptPaths := map[string]bool{
-			"/modi/v1/login":    true,
-			"/modi/v1/register": true,
+			"/api/v1/login":    true,
+			"/api/v1/register": true,
 		}
 		// 如果请求路径在白名单中，则不进行JWT验证，直接继续处理请求
 		if _, ok := exceptPaths[path]; ok {
@@ -58,6 +58,7 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 				token, _ := utils.GenerateToken(userObj.Id, prikey, curTime)
 
 				c.Set("token", token)
+				c.Set("auth_user", userObj)
 				c.Next()
 			}
 		} else if ve, ok := err.(*jwt.ValidationError); ok {
@@ -76,4 +77,14 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		}
 		c.Abort()
 	}
+}
+
+// GetAuthUser 获取已经验证的用户
+
+func GetAuthUser(c *gin.Context) *user.User {
+	t, exist := c.Get("auth_user")
+	if !exist {
+		return nil
+	}
+	return t.(*user.User)
 }

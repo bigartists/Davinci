@@ -29,10 +29,19 @@ type JwtConfig struct {
 	PrivateKey string `yaml:"private_key"`
 }
 
+type SMTPConfig struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	From     string `yaml:"from"`
+}
+
 type SysConfig struct {
 	Server   *ServerConfig   `yaml:"server"`
 	Database *DatabaseConfig `yaml:"database"`
 	Jwt      *JwtConfig      `yaml:"jwt"`
+	SMTP     *SMTPConfig     `yaml:"smtp"`
 }
 
 func DefaultSysConfig() *SysConfig {

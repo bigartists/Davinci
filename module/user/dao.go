@@ -6,12 +6,12 @@ import (
 )
 
 type IUserDao interface {
-	FindUserAll() []*Model
-	FindUserById(id int64, user *Model) (*Model, error)
-	FindUserByUsername(username string) (*Model, error)
-	FindUserByEmail(email string) (*Model, error)
-	CreateUser(user *Model) error
-	UpdateUser(id int, user *Model) error
+	FindUserAll() []*User
+	FindUserById(id int64, user *User) (*User, error)
+	FindUserByUsername(username string) (*User, error)
+	FindUserByEmail(email string) (*User, error)
+	CreateUser(user *User) error
+	UpdateUser(id int, user *User) error
 	DeleteUser(id int) error
 }
 
@@ -28,24 +28,24 @@ func NewGetterImpl() *GetterImpl {
 	return &GetterImpl{}
 }
 
-func (I GetterImpl) FindUserByUsername(username string) (*Model, error) {
-	var user Model
+func (I GetterImpl) FindUserByUsername(username string) (*User, error) {
+	var user User
 	err := client.Orm.Where("username=?", username).Find(&user).Error
 
 	return &user, err
 }
 
-func (I GetterImpl) FindUserByEmail(email string) (*Model, error) {
-	var user Model
+func (I GetterImpl) FindUserByEmail(email string) (*User, error) {
+	var user User
 	err := client.Orm.Where("email=?", email).Find(&user).Error
 	return &user, err
 }
 
-func (I GetterImpl) CreateUser(user *Model) error {
+func (I GetterImpl) CreateUser(user *User) error {
 	return client.Orm.Create(user).Error
 }
 
-func (I GetterImpl) UpdateUser(id int, user *Model) error {
+func (I GetterImpl) UpdateUser(id int, user *User) error {
 	//TODO implement me
 	panic("implement me")
 }
@@ -55,7 +55,7 @@ func (I GetterImpl) DeleteUser(id int) error {
 	panic("implement me")
 }
 
-func (I GetterImpl) FindUserById(id int64, user *Model) (*Model, error) {
+func (I GetterImpl) FindUserById(id int64, user *User) (*User, error) {
 	//TODO implement me
 	db := client.Orm.Where("id=?", id).Find(user)
 	if db.Error != nil || db.RowsAffected == 0 {
@@ -64,8 +64,8 @@ func (I GetterImpl) FindUserById(id int64, user *Model) (*Model, error) {
 	return user, nil
 }
 
-func (I GetterImpl) FindUserAll() []*Model {
-	var users []*Model
+func (I GetterImpl) FindUserAll() []*User {
+	var users []*User
 	client.Orm.Find(&users)
 	return users
 }

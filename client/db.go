@@ -20,6 +20,13 @@ func gormDB() *gorm.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	//err = db.AutoMigrate(&User{}, &Question{}, &Answer{})
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	println("hello, world")
+
 	mysqlDB, err := db.DB()
 	if err != nil {
 		log.Fatal(err)
