@@ -50,15 +50,6 @@ func (this *QaController) QuestionList(c *gin.Context) {
 	c.JSON(200, ResultWrapper(c)(questionsDTO, "")(OK))
 }
 
-/*
-SELECT * FROM `Question` WHERE `Question`.`deleted_at` IS NULL AND `Question`.`id` = 1 ORDER BY `Question`.`id` LIMIT 1
-SELECT * FROM `user` WHERE `user`.`id` = 1
-SELECT * FROM `Question` WHERE `Question`.`deleted_at` IS NULL AND `Question`.`id` = 1 ORDER BY `Question`.`id` LIMIT 1
-SELECT * FROM `Answer` WHERE `Answer`.`question_id` = 1 AND `Answer`.`deleted_at` IS NULL ORDER BY Answer.created_at desc
-SELECT * FROM `Question` WHERE `Question`.`deleted_at` IS NULL AND `Question`.`id` = 1 ORDER BY `Question`.`id` LIMIT 1
-SELECT * FROM `user` WHERE `user`.`id` = 1
-SELECT * FROM `Answer` WHERE `Answer`.`id` IN (3,1) AND `Answer`.`deleted_at` IS NULL
-*/
 func (this *QaController) QuestionDetail(c *gin.Context) {
 
 	id := cast.ToInt64(c.DefaultQuery("id", "0"))
@@ -112,7 +103,7 @@ func (this *QaController) QuestionCreate(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("user:", user.Id, user.Username, user.Nickname, user.Email)
+	fmt.Println("user:", user.Id, user.Username, user.Name, user.Email)
 
 	question := &Question{
 		Title:    params.Title,

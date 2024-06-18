@@ -1,24 +1,13 @@
 package user
 
 import (
-	"davinci/pkg/result"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
-type Service interface {
-	GetUserList() []*UserDTO
-	GetUserDetail(id int64) *result.ErrorResult
-	CreateUser(user *User) *result.ErrorResult
-	UpdateUser(id int, user *User) *result.ErrorResult
-	DeleteUser(id int) *result.ErrorResult
-	SignIn(username string, password string) (*UserDTO, error)
-	SignUp(email string, username string, password string) error
-}
-
 // User 创建 Users struct
 type User struct {
-	Id int64 `json:"userid" gorm:"column:id; primaryKey; autoIncrement"`
+	Id int64 `json:"id" gorm:"column:id; primaryKey; autoIncrement"`
 	//Email 邮箱，不能为空， 必须是邮箱格式，且不能重复；
 	Email string `json:"email" gorm:"column:email;unique" binding:"required,email"`
 	//Username 用户名，创建自定义验证器： 长度在 6-20 之间，且不能重复，只能包含大小写字母，数字，下划线；第一个字符必须是字母；
@@ -30,15 +19,16 @@ type User struct {
 	// active 0 和 1
 	Active int `json:"active" gorm:"column:active"`
 	// nickname
-	Nickname string `json:"nickname" gorm:"column:nickname"`
+	Name string `json:"name" gorm:"column:name"`
 	// description
 	Description string `json:"description" gorm:"column:description"`
+	Department  string `json:"department" gorm:"column:department"`
 	// avatar
 	Avatar string `json:"avatar" gorm:"column:avatar"`
 	// 自动维护时间
 
-	CreateAt time.Time `json:"create_time" gorm:"column:created_at;autoCreateTime;type:datetime(0);"`
-	UpdateAt time.Time `json:"update_time" gorm:"column:updated_at;autoCreateTime;<-:false;type:datetime(0);"`
+	CreateAt time.Time `json:"create_time" gorm:"column:create_time;autoCreateTime;type:datetime(0);"`
+	UpdateAt time.Time `json:"update_time" gorm:"column:update_time;autoCreateTime;<-:false;type:datetime(0);"`
 	CreateBy int64     `json:"-" gorm:"column:create_by"`
 	UpdateBy int64     `json:"-" gorm:"column:update_by"`
 }

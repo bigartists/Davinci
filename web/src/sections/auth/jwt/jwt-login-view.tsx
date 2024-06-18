@@ -43,8 +43,8 @@ export default function JwtLoginView() {
   });
 
   const defaultValues = {
-    username: 'AlbertEinstein',
-    password: 'Rh123456',
+    username: 'admin',
+    password: '123456',
   };
 
   const methods = useForm({
@@ -62,8 +62,10 @@ export default function JwtLoginView() {
     try {
       console.log('init');
       await login?.(data.username, data.password);
+      const nextTo = returnTo || PATH_AFTER_LOGIN;
+      console.log('🚀 ~ onSubmit ~ returnTo', returnTo, 'PATH_AFTER_LOGIN=', PATH_AFTER_LOGIN);
 
-      // router.push(returnTo || PATH_AFTER_LOGIN);
+      router.push(nextTo);
     } catch (error) {
       console.error(error);
       reset();

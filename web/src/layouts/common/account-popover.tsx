@@ -17,6 +17,7 @@ import { useAuthContext } from 'src/auth/hooks';
 
 import { varHover } from 'src/components/animate';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +51,7 @@ export default function AccountPopover() {
     try {
       await logout();
       popover.onClose();
-      router.replace('/');
+      router.replace(paths.auth.jwt.login);
     } catch (error) {
       console.error(error);
     }

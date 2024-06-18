@@ -1,6 +1,7 @@
 // ----------------------------------------------------------------------
 
 const ROOTS = {
+  ROOT: '/',
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
   SECRET: '/secret',
@@ -9,7 +10,7 @@ const ROOTS = {
 // ----------------------------------------------------------------------
 
 export const paths = {
-  minimalUI: 'https://mui.com/store/items/minimal-dashboard/',
+  root: ROOTS.ROOT,
   // AUTH
   auth: {
     jwt: {

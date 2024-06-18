@@ -13,8 +13,8 @@ type QuestionDTO struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 
-	Author  *user.UserDTO `json:"author,omitempty"`  // 作者
-	Answers []*AnswerDTO  `json:"answers,omitempty"` // 回答
+	Author  *user.UserBaseInfo `json:"author,omitempty"`  // 作者
+	Answers []*AnswerDTO       `json:"answers,omitempty"` // 回答
 }
 
 // AnswerDTO 回答返回结构
@@ -24,5 +24,5 @@ type AnswerDTO struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 
-	Author *user.UserDTO `json:"author,omitempty"` // 作者
+	Author *user.UserBaseInfo `json:"author,omitempty"` // 作者
 }
