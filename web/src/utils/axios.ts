@@ -89,7 +89,9 @@ function getToken() {
 }
 
 function refreshToken(response: AxiosResponse) {
-  const token = response.data && response.data && response.data.token;
+  const token =
+    response.data && response.data && response.data.header && response.data.header.token;
+
   if (token) {
     setToken(token);
   }

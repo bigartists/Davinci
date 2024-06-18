@@ -20,8 +20,11 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		path := c.Request.URL.Path
 		// 定义不需要JWT验证的路径
 		exceptPaths := map[string]bool{
-			"/api/v1/login":    true,
-			"/api/v1/register": true,
+			"/api/v1/login":          true,
+			"/api/v1/register":       true,
+			"/api/v3/login":          true,
+			"/api/v3/register":       true,
+			"/api/v3/configurations": true,
 		}
 		// 如果请求路径在白名单中，则不进行JWT验证，直接继续处理请求
 		if _, ok := exceptPaths[path]; ok {

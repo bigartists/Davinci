@@ -1,11 +1,15 @@
 package vars
 
+import "net/http"
+
 const (
 	ContextKeyToken         = "token"
-	HTTPSUCCESS             = 1
-	HTTPFAIL                = 0
-	HTTPUNAUTHORIZED        = -1
+	HTTPSUCCESS             = http.StatusOK
+	HTTPFAIL                = http.StatusBadRequest
+	HTTPUNAUTHORIZED        = http.StatusUnauthorized
 	HTTPMESSAGESUCCESS      = "success"
 	HTTPMESSAGEFAIL         = "fail"
 	HTTPMESSAGEUNAUTHORIZED = "Unauthorized"
+
+	STAR_TARGET_PROJECT = "project"
 )

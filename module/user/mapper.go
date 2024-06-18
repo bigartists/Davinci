@@ -1,15 +1,19 @@
 package user
 
-func ConvertUserToDTO(user *User) *UserDTO {
+import "strconv"
+
+func ConvertUserToDTO(user *User) *UserBaseInfo {
 	if user == nil {
 		return nil
 	}
-	return &UserDTO{
+	println("user=", user)
+	return &UserBaseInfo{
 		ID:          user.Id,
 		Username:    user.Username,
-		Nickname:    user.Nickname,
-		Avatar:      user.Nickname,
+		Name:        user.Name,
+		Avatar:      user.Avatar,
 		Description: user.Description,
 		CreateAt:    user.CreateAt,
+		Admin:       strconv.Itoa(user.Admin),
 	}
 }

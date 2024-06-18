@@ -18,7 +18,7 @@ func NewUserGetterImpl() *ServiceGetterImpl {
 type ServiceGetterImpl struct {
 }
 
-func (this *ServiceGetterImpl) SignIn(username string, password string) (*UserDTO, error) {
+func (this *ServiceGetterImpl) SignIn(username string, password string) (*UserBaseInfo, error) {
 	user, err := DaoGetter.FindUserByUsername(username)
 	if err != nil {
 		return nil, err
@@ -60,9 +60,9 @@ func (this *ServiceGetterImpl) SignUp(email string, username string, password st
 	return nil
 }
 
-func (this *ServiceGetterImpl) GetUserList() []*UserDTO {
+func (this *ServiceGetterImpl) GetUserList() []*UserBaseInfo {
 	users := DaoGetter.FindUserAll()
-	userdtos := make([]*UserDTO, len(users))
+	userdtos := make([]*UserBaseInfo, len(users))
 	for i, user := range users {
 		userdtos[i] = ConvertUserToDTO(user)
 	}

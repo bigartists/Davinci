@@ -2,13 +2,21 @@ package user
 
 import "time"
 
-// UserDTO 表示输出到外部的用户信息
+// UserBaseInfo 表示输出到外部的用户信息
 
-type UserDTO struct {
-	ID          int64     `json:"id,omitempty"`
-	Username    string    `json:"username,omitempty"`
-	Nickname    string    `json:"nickname,omitempty"`
-	Avatar      string    `json:"avatar,omitempty"`
-	Description string    `json:"description,omitempty"`
+type UserBaseInfo struct {
+	ID          int64     `json:"id"`
+	Username    string    `json:"username"`
+	Admin       string    `json:"admin"`
+	Name        string    `json:"name"`
+	Avatar      string    `json:"avatar"`
+	Description string    `json:"description"`
 	CreateAt    time.Time `json:"created_at"`
+}
+
+type UserAsCreator struct {
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
+	Avatar   string `json:"avatar"`
+	Email    string `json:"email"`
 }

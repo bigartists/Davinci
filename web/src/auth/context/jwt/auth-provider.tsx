@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useReducer, useCallback } from 'react';
 
-import axios, { endpoints } from 'src/utils/axios';
+import axios, { endpoints, removeToken } from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
@@ -133,20 +133,7 @@ export function AuthProvider({ children }: Props) {
     };
 
     const res = await axios.post(endpoints.auth.login, data);
-
-    const { accessToken, user } = res.data;
-
-    setSession(accessToken);
-
-    dispatch({
-      type: Types.LOGIN,
-      payload: {
-        user: {
-          ...user,
-          accessToken,
-        },
-      },
-    });
+    console.log('🚀 ~ login ~ res:', res);
   }, []);
 
   // REGISTER
@@ -180,10 +167,7 @@ export function AuthProvider({ children }: Props) {
 
   // LOGOUT
   const logout = useCallback(async () => {
-    setSession(null);
-    dispatch({
-      type: Types.LOGOUT,
-    });
+    removeToken();
   }, []);
 
   // ----------------------------------------------------------------------

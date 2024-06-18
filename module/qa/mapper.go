@@ -13,7 +13,7 @@ func ConvertQuestionToDTO(question *Question, flags map[string]string) *Question
 	}
 	author := user.ConvertUserToDTO(question.Author)
 	if author == nil {
-		author = &user.UserDTO{
+		author = &user.UserBaseInfo{
 			ID: question.AuthorID,
 		}
 	}
@@ -57,7 +57,7 @@ func ConvertAnswerToDTO(answer *Answer) *AnswerDTO {
 	}
 	author := user.ConvertUserToDTO(answer.Author)
 	if author == nil {
-		author = &user.UserDTO{
+		author = &user.UserBaseInfo{
 			ID: answer.AuthorID,
 		}
 	}
