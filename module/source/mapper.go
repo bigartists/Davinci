@@ -16,3 +16,17 @@ func ConvertSourcesToDTO(sources []Source) *[]SourceDTO {
 
 	return &sourceDTOs
 }
+
+func ConvertSourcesToSourceDetail(source *Source) *SourceDetail {
+	sourceDetail := &SourceDetail{}
+	sourceDetail.SourceDTO = &SourceDTO{
+		Id:          source.ID,
+		Name:        source.Name,
+		Description: source.Description,
+		Type:        source.Type,
+		ProjectId:   source.ProjectID,
+	}
+	sourceDetail.Config = source.Config
+
+	return sourceDetail
+}

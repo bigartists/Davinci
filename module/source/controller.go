@@ -28,6 +28,19 @@ func (this *SourceController) GetSources(c *gin.Context) {
 	c.JSON(200, utils.ResultWrapper(c)(sourceDTO, "")(utils.OK))
 }
 
+func (this *SourceController) GetSourceDetail(c *gin.Context) {
+	u := middlewares.GetAuthUser(c)
+	id := cast.ToInt64(c.Param("id"))
+
+	sourceDetail, err := ServiceGetter.GetSourceDetail(u, id)
+
+	if err != nil {
+		c.JSON(500, utils.ResultWrapper(c)(nil, err.Error())(utils.Error))
+	}
+	c.JSON(200, utils.ResultWrapper(c)(sourceDetail, "")(utils.OK))
+}
+
 func (this *SourceController) Build(r *gin.RouterGroup) {
 	r.GET("/sources", this.GetSources)
+	r.GET("/sources/:id", this.GetSourceDetail)
 }

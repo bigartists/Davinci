@@ -7,3 +7,8 @@ type SourceDTO struct {
 	Type        string `json:"type"`
 	ProjectId   int64  `json:"projectId"`
 }
+
+type SourceDetail struct {
+	*SourceDTO
+	Config string `json:"config"`
+}

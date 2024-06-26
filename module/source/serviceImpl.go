@@ -14,10 +14,27 @@ func init() {
 
 type ServiceGetterImpl struct{}
 
-func (s ServiceGetterImpl) GetSources(projectId int64, u *user.User) (*[]Source, error) {
-	projectdetail, _ := project.ServiceGetter.GetProjectDetail(projectId, u, false)
+func (s ServiceGetterImpl) GetSourceDetail(u *user.User, id int64) (*SourceDetail, error) {
+	source, err := s.getSource(id)
+	if err != nil {
+		return nil, err
+	}
+	// TODO ： 校验当前用户是否有查看权限 缺失了，后续补充上
 
-	fmt.Print(projectdetail)
+	sourceDto := ConvertSourcesToSourceDetail(source)
+
+	return sourceDto, nil
+}
+
+func (s ServiceGetterImpl) getSource(id int64) (*Source, error) {
+	source, err := DaoGetter.GetSourceById(id)
+	return source, err
+}
+
+func (s ServiceGetterImpl) GetSources(projectId int64, u *user.User) (*[]Source, error) {
+	projectDetail, _ := project.ServiceGetter.GetProjectDetail(projectId, u, false)
+
+	fmt.Print(projectDetail)
 
 	sources, err := DaoGetter.GetSourcesByProject(projectId)
 
