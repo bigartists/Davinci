@@ -6,6 +6,7 @@ import (
 	"davinci/module/qa"
 	"davinci/module/source"
 	"davinci/module/user"
+	"davinci/module/view"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,4 +17,5 @@ func Build(r *gin.Engine) {
 	project.NewProjectController().Build(group)
 	organization.NewOrganizationController().Build(group)
 	source.NewSourceController().Build(group)
+	view.NewViewController().Build(group)
 }

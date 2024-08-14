@@ -2,7 +2,7 @@ package project
 
 import (
 	"davinci/module/role"
-	"davinci/pkg/middlewares"
+	"davinci/module/user"
 	"davinci/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
@@ -16,7 +16,7 @@ func NewProjectController() *ProjectController {
 }
 
 func (this *ProjectController) GetProjects(c *gin.Context) {
-	u := middlewares.GetAuthUser(c)
+	u := user.GetAuthUser(c)
 	projects, err := ServiceGetter.GetProjects(c, u)
 
 	if err != nil {
@@ -30,7 +30,7 @@ func (this *ProjectController) GetProjects(c *gin.Context) {
 }
 
 func (this *ProjectController) GetFavoriteProjects(c *gin.Context) {
-	u := middlewares.GetAuthUser(c)
+	u := user.GetAuthUser(c)
 	projects, err := ServiceGetter.GetFavoriteProjects(u)
 
 	if err != nil {
@@ -44,7 +44,7 @@ func (this *ProjectController) GetFavoriteProjects(c *gin.Context) {
 }
 
 func (this *ProjectController) GetRolesOfProject(c *gin.Context) {
-	u := middlewares.GetAuthUser(c)
+	u := user.GetAuthUser(c)
 	projectId, err := utils.GetInt64Param(c, "id")
 
 	if projectId == 0 || err != nil {
@@ -64,7 +64,7 @@ func (this *ProjectController) GetRolesOfProject(c *gin.Context) {
 
 func (this *ProjectController) GetProjectInfo(c *gin.Context) {
 	id := cast.ToInt64(c.Param("id"))
-	u := middlewares.GetAuthUser(c)
+	u := user.GetAuthUser(c)
 	if id == 0 {
 		c.JSON(400, utils.ResultWrapper(c)(nil, "invalid project id")(utils.Error))
 		return

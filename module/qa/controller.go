@@ -1,7 +1,7 @@
 package qa
 
 import (
-	"davinci/pkg/middlewares"
+	"davinci/module/user"
 	. "davinci/pkg/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -96,7 +96,7 @@ func (this *QaController) QuestionCreate(c *gin.Context) {
 		return
 	}
 
-	user := middlewares.GetAuthUser(c)
+	user := user.GetAuthUser(c)
 
 	if user == nil {
 		c.JSON(500, ResultWrapper(c)(nil, "无权限操作")(Error))
@@ -135,7 +135,7 @@ func (this *QaController) QuestionDelete(c *gin.Context) {
 		return
 	}
 
-	user := middlewares.GetAuthUser(c)
+	user := user.GetAuthUser(c)
 	if user.Id != question.AuthorID {
 		c.JSON(500, ResultWrapper(c)(nil, "无权限操作")(Error))
 		return
@@ -166,7 +166,7 @@ func (this *QaController) QuestionEdit(c *gin.Context) {
 		c.JSON(500, ResultWrapper(c)(nil, "问题不存在")(Error))
 		return
 	}
-	user := middlewares.GetAuthUser(c)
+	user := user.GetAuthUser(c)
 	if user == nil || user.Id != questionOld.AuthorID {
 		c.JSON(500, ResultWrapper(c)(nil, "无权限操作")(Error))
 		return
@@ -199,7 +199,7 @@ func (this *QaController) AnswerCreate(c *gin.Context) {
 		c.JSON(400, ResultWrapper(c)(nil, err.Error())(Error))
 		return
 	}
-	user := middlewares.GetAuthUser(c)
+	user := user.GetAuthUser(c)
 	if user == nil {
 		c.JSON(500, ResultWrapper(c)(nil, "请登录后再操作")(Error))
 		return
@@ -224,7 +224,7 @@ func (this *QaController) AnswerDelete(c *gin.Context) {
 		c.JSON(400, ResultWrapper(c)(nil, "参数错误")(Error))
 		return
 	}
-	user := middlewares.GetAuthUser(c)
+	user := user.GetAuthUser(c)
 	if user == nil {
 		c.JSON(500, ResultWrapper(c)(nil, "请登录后再操作")(Error))
 		return

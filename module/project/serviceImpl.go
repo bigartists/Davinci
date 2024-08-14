@@ -40,7 +40,7 @@ func (this ServiceGetterImpl) GetProjectInfo(projectId int64, u *user.User) (Pro
 func (s ServiceGetterImpl) GetProjectDetail(projectId int64, u *user.User, modify bool) (*ProjectDetail, error) {
 	projectDetail, err := DaoGetter.GetProjectDetail(projectId)
 
-	fmt.Println("projectDetail: =======", projectDetail)
+	//fmt.Println("projectDetail: =======", projectDetail)
 
 	if nil == projectDetail {
 		message := fmt.Sprintf("Project %d not found", projectId)

@@ -83,11 +83,3 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 }
 
 // GetAuthUser 获取已经验证的用户
-
-func GetAuthUser(c *gin.Context) *user.User {
-	t, exist := c.Get("auth_user")
-	if !exist {
-		return nil
-	}
-	return t.(*user.User)
-}

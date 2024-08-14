@@ -55,6 +55,14 @@ func (this *UserController) Login(c *gin.Context) {
 //	c.JSON(201, ret)
 //}
 
+func GetAuthUser(c *gin.Context) *User {
+	t, exist := c.Get("auth_user")
+	if !exist {
+		return nil
+	}
+	return t.(*User)
+}
+
 func (this *UserController) UserList(c *gin.Context) {
 	ret := ResultWrapper(c)(ServiceGetter.GetUserList(), "")(OK)
 	c.JSON(200, ret)
@@ -69,9 +77,16 @@ func (this *UserController) UserDetail(c *gin.Context) {
 	c.JSON(200, ret)
 }
 
+func (this *UserController) GetMe(c *gin.Context) {
+	u := GetAuthUser(c)
+	ret := ResultWrapper(c)(u, "")(OK)
+	c.JSON(200, ret)
+}
+
 func (this *UserController) Build(r *gin.RouterGroup) {
 	r.POST("/login", this.Login)
 	//r.POST("/register", this.SignUp)
 	r.GET("/users", this.UserList)
 	r.GET("/user/:id", this.UserDetail)
+	r.GET("/me", this.GetMe)
 }

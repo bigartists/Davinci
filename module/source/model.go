@@ -2,7 +2,9 @@ package source
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -30,8 +32,8 @@ func (*Source) TableName() string {
 
 const JDBC_DATASOURCE_DEFAULT_VERSION = "default"
 
+// "url":"jdbc:mysql://101.43.2.58"
 func SourceUtilsGetDataSourceName(url string) string {
-
 	parts := strings.Split(url, "/")
 	if len(parts) > 0 {
 		return parts[len(parts)-1]
@@ -52,6 +54,8 @@ type Dict struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
+
+//{"ext":false,"password":"Alex_13306","version":"","properties":[],"url":"jdbc:mysql://101.43.2.58","username":"root"}
 
 func (s *Source) GetConfig() (*Config, error) {
 	var config Config
@@ -89,6 +93,50 @@ func (s *Source) GetPassword() string {
 func (s *Source) GetDatabase() string {
 	// Assuming SourceUtils.GetDataSourceName is a method that extracts the database name from the URL
 	return SourceUtilsGetDataSourceName(s.GetJdbcUrl())
+}
+
+func (s *Source) GetDBTypeFromJdbcUrl() (string, error) {
+	jdbcUrl := s.GetJdbcUrl()
+	re := regexp.MustCompile(`jdbc:([^:]+)://`)
+	matches := re.FindStringSubmatch(jdbcUrl)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("invalid JDBC URL: %s", jdbcUrl)
+	}
+	return matches[1], nil
+}
+
+func (s *Source) GetIpAddress() (string, error) {
+	jdbcUrl := s.GetJdbcUrl()
+	re := regexp.MustCompile(`jdbc:[^:]+://([^:/]+)`)
+	matches := re.FindStringSubmatch(jdbcUrl)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("invalid JDBC URL: %s", jdbcUrl)
+	}
+	return matches[1], nil
+}
+
+// getPort extracts the port from the JDBC URL
+func (s *Source) GetPort() (string, error) {
+	jdbcUrl := s.GetJdbcUrl()
+	re := regexp.MustCompile(`jdbc:[^:]+://[^:/]+:(\d+)`)
+	matches := re.FindStringSubmatch(jdbcUrl)
+	if len(matches) < 2 {
+		// No port specified, provide default port based on DB type
+		dbType, err := s.GetDBTypeFromJdbcUrl()
+		if err != nil {
+			return "", err
+		}
+		switch dbType {
+		case "mysql":
+			return "3306", nil
+		case "postgresql":
+			return "5432", nil
+		// Add other database types and their default ports as needed
+		default:
+			return "", fmt.Errorf("port not specified in JDBC URL and default port for %s is unknown", dbType)
+		}
+	}
+	return matches[1], nil
 }
 
 func (s *Source) GetDbVersion() string {
