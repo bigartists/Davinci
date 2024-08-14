@@ -43,21 +43,10 @@ const ICONS = {
 
 export const navData = [
   /**
-   * Overview
-   */
-  {
-    subheader: 'Overview 6.0.0',
-    items: [
-      { title: 'One', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-      { title: 'Three', path: paths.dashboard.three, icon: ICONS.analytics },
-    ],
-  },
-  /**
    * Management
    */
   {
-    subheader: 'Management',
+    subheader: 'chatBI',
     items: [
       {
         title: 'Group',
@@ -69,6 +58,17 @@ export const navData = [
           { title: 'Six', path: paths.dashboard.group.six },
         ],
       },
+    ],
+  },
+  /**
+   * Overview
+   */
+  {
+    subheader: 'Infra',
+    items: [
+      { title: 'View', path: paths.dashboard.root, icon: ICONS.dashboard },
+      { title: 'Source', path: paths.dashboard.two, icon: ICONS.ecommerce },
+      // { title: 'Source', path: paths.dashboard.three, icon: ICONS.analytics },
     ],
   },
 ];

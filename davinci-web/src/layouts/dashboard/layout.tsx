@@ -28,6 +28,9 @@ import { HeaderBase } from '../core/header-base';
 import { _workspaces } from '../config-nav-workspace';
 import { LayoutSection } from '../core/layout-section';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
+import { useGetProjects } from 'src/actions/projects';
+import { CONFIG } from 'src/config-global';
+import { IProject } from 'src/types/project/type';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +47,9 @@ export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
 
   const mobileNavOpen = useBoolean();
 
+  const { projects, projectsLoading } = useGetProjects();
+  console.log('🚀 ~ DashboardLayout ~ projects:', projects);
+
   const settings = useSettingsContext();
 
   const navColorVars = useNavColorVars(theme, settings);
@@ -57,6 +63,17 @@ export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
   const isNavHorizontal = settings.navLayout === 'horizontal';
 
   const isNavVertical = isNavMini || settings.navLayout === 'vertical';
+
+  const formatProjects = useMemo(
+    () =>
+      projects.map((project: IProject) => ({
+        id: String(project.id),
+        name: project.name,
+        logo: `${CONFIG.site.basePath}/assets/icons/workspaces/logo-1.webp`,
+        plan: '项目',
+      })),
+    [projects]
+  );
 
   return (
     <>
@@ -87,7 +104,8 @@ export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
               ],
               account: _account,
               contacts: _contacts,
-              workspaces: _workspaces,
+              // workspaces: _workspaces,
+              workspaces: formatProjects,
               notifications: _notifications,
             }}
             slotsDisplay={{
