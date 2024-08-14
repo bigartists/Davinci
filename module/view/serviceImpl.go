@@ -3,6 +3,7 @@ package view
 import (
 	"davinci/module/project"
 	"davinci/module/relRoleView"
+	"davinci/module/source"
 	"davinci/module/user"
 	"fmt"
 )
@@ -14,6 +15,14 @@ func init() {
 }
 
 type ServiceGetterImpl struct{}
+
+func (s ServiceGetterImpl) ExecuteSql(u *user.User, sourceId int64, sql string, variables []interface{}, Limit int64) (map[string]interface{}, error) {
+	rows, err := source.ServiceGetter.ExecuteSql(u, sourceId, sql, variables, Limit)
+	if err != nil {
+		return nil, err
+	}
+	return rows, nil
+}
 
 func (s ServiceGetterImpl) GetViewDetail(u *user.User, id int64) (*ViewWithSourceBaseInfo, error) {
 

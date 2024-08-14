@@ -1,7 +1,7 @@
 package organization
 
 import (
-	"davinci/pkg/middlewares"
+	"davinci/module/user"
 	"davinci/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +14,7 @@ func NewOrganizationController() *OrganizationController {
 }
 
 func (this *OrganizationController) GetOrganizations(c *gin.Context) {
-	u := middlewares.GetAuthUser(c)
+	u := user.GetAuthUser(c)
 	organizations, err := ServiceGetter.GetOrganizations(c, u)
 
 	if err != nil {

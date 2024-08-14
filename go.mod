@@ -5,9 +5,11 @@ go 1.21
 toolchain go1.21.11
 
 require (
+	github.com/ClickHouse/clickhouse-go v1.5.4
 	github.com/PuerkitoBio/goquery v1.9.2
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.15.3
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/jianfengye/collection v1.4.2
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
@@ -30,6 +32,7 @@ require (
 	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
+	github.com/cloudflare/golz4 v0.0.0-20150217214814-ef862a3cdc58 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-faster/city v1.0.1 // indirect
@@ -37,7 +40,6 @@ require (
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect

@@ -30,3 +30,15 @@ func ConvertSourcesToSourceDetail(source *Source) *SourceDetail {
 
 	return sourceDetail
 }
+
+func ConvertTablesToMap(tables *[]string) []Item {
+	// Map over the slice and add the "type" field
+	items := make([]Item, len(*tables))
+	for i, s := range *tables {
+		items[i] = Item{
+			Name: s,
+			Type: "TABLE",
+		}
+	}
+	return items
+}
